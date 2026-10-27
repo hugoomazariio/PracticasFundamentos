@@ -1,13 +1,28 @@
+/*
+    Estilos generales de la práctica.
+    Aquí se define el cuerpo de la página, el contenedor principal
+    y la apariencia visual de los paneles, botones y texto.
+*/
+
 * {
     box-sizing: border-box;
 }
 
+/*
+    Ajustes base del documento.
+    Se elimina el margen por defecto y se establece la fuente y color general.
+*/
 body {
     margin: 0;
     background: #f5f5f5;
     color: #000;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+/*
+    Layout principal de la página.
+    Aquí se controlan el ancho máximo, el padding y la alineación del contenido.
+*/
 
 .page {
     max-width: 1320px;
