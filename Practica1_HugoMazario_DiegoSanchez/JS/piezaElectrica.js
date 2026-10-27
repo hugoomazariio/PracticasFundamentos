@@ -41,6 +41,9 @@ class PiezaElectrica extends Pieza {
         // Al ser una clase hija, es obligatorio llamar aquí antes de usar "this"
         super(nombre, codigo, fechaFabricacion);
 
+        // Tipo de pieza, para que la estación de tratamiento sepa qué hacer con ella
+        this.tipo = "electrica";
+
         // Atributos propios de las piezas eléctricas.
         this.potencia = potencia;
         this.voltaje = voltaje;

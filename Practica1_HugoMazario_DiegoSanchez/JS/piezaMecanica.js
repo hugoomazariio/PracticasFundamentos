@@ -36,6 +36,9 @@ class PiezaMecanica extends Pieza{
         // Rellena los atributos comunes llamando al constructor del padre
         super(nombre, codigo, fechaFabricacion);
 
+        // Tipo de pieza, para que la estación de tratamiento sepa qué hacer con ella
+        this.tipo = "mecanica";
+
         // Atributo propio de las piezas mecánicas.
         this.material = material;
     }
