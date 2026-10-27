@@ -5,35 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fábrica de Piezas</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="./JS/pieza.js"></script>
+
+    <!-- Orden importante: primero la clase padre, luego las hijas, al final main -->
+    <script src="./JS/pieza.js" defer></script>
+    <script src="./JS/piezaElectrica.js" defer></script>
+    <script src="./JS/piezaMecanica.js" defer></script>
+    <script src="./JS/factoria.js" defer></script>
+    <script src="./JS/estacionTratamiento.js" defer></script>
+    <script src="./JS/fabrica.js" defer></script>
+    <script src="./JS/main.js" defer></script>
 </head>
 <body>
     <div class="page">
-        <h1 class="title">Fábrica de Piezas<br>
-            Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez | 15/10/2026 </h1>
+        <h1 class="title">Fábrica de Piezas</h1>
+        <p class="authors">Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez | 15/10/2026</p>
 
         <div class="panel instructions">
-            <span>Texto con indicaciones de uso</span>
+            <p>Pulse "Fabricar 100" para simular la fabricación de 100 piezas.</p>
+            <p>Pulse "Fabricar 1000" para simular la fabricación de 1000 piezas.</p>
         </div>
 
         <div class="main-layout">
             <section class="panel controls">
-                <h2>Zona de interacción de<br>botones</h2>
+                <h2>Simulación</h2>
                 <div class="buttons">
-                    <button type="button">>Fabricar 100</button>
-                    <button type="button">Fabricar 1000</button>
+                    <button type="button" id="btn-100">Fabricar 100</button>
+                    <button type="button" id="btn-1000">Fabricar 1000</button>
                 </div>
             </section>
 
             <section class="panel results">
-                <h2>Zona de visualización de<br>resultados</h2>
-                <p>Total de piezas.</p>
-                <p>Recuento de la fábrica<br>(cuántas eléctricas y cuántas<br>mecánicas).</p>
-                <p>Recuento de la estación de<br>tratamiento (barniz normal,<br>barniz especial, galvanizadas,<br>pintadas y pulidas).</p>
+                <h2>Resultado de la simulación</h2>
+                <p id="res-total">Aún no se ha simulado nada.</p>
+                <p id="res-factoria"></p>
+                <p id="res-estacion-electricas"></p>
+                <p id="res-estacion-mecanicas"></p>
             </section>
         </div>
 
-        <footer class="footer">Pie de página (si usamos recursos externos)</footer>
+        <footer class="footer">Sin recursos externos.</footer>
     </div>
 </body>
 </html>
