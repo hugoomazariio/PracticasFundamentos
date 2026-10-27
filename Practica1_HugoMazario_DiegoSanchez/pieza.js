@@ -5,7 +5,6 @@
 
 // A esto tenemos que meterle herencia y demás
 
-<script>
     // Constructor para una pieza genérica
 
     // Método a la clase base para procesar la pieza
@@ -20,6 +19,4 @@
 
     // Constructor para objetos de tipo factoria
 
-    // Constructor para objetos de tipo estación de tratamiento
-
-</script>
+    // Constructor para objetos de tipo estación de tratamient

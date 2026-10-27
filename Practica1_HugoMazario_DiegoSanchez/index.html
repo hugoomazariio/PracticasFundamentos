@@ -5,10 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fábrica de Piezas</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="fabrica.js"></script>
+    <script src="pieza.js"></script>
 </head>
 <body>
-    <p> Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez</p>
-    
+    <div class="page">
+        <h1 class="title">Fábrica de Piezas<br>
+            Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez</h1>
+
+        <div class="panel instructions">
+            <p>Texto con indicaciones de uso</p>
+        </div>
+
+        <div class="main-layout">
+            <section class="panel controls">
+                <h2>Zona de interacción de<br>botones</h2>
+                <div class="buttons">
+                    <button type="button">Botón 1</button>
+                    <button type="button">Botón 2</button>
+                </div>
+            </section>
+
+            <section class="panel results">
+                <h2>Zona de visualización de<br>resultados</h2>
+                <p>Total de piezas.</p>
+                <p>Recuento de la fábrica<br>(cuántas eléctricas y cuántas<br>mecánicas).</p>
+                <p>Recuento de la estación de<br>tratamiento (barniz normal,<br>barniz especial, galvanizadas,<br>pintadas y pulidas).</p>
+            </section>
+        </div>
+
+        <footer class="footer">Pie de página (si usamos recursos externos)</footer>
+    </div>
 </body>
 </html>
