@@ -34,7 +34,7 @@ class PiezaElectrica extends Pieza {
      * @param {string} codigo - Número de serie + letra "E"
      * @param {Date} fechaFabricacion - Fecha de fabricación
      * @param {number} potencia - Watios
-     * @param {numer} voltaje - Voltios
+     * @param {number} voltaje - Voltios
      */
     constructor(nombre, codigo, fechaFabricacion, potencia, voltaje) {
         // super() llama al constructor de Pieza para rellenar lo común
