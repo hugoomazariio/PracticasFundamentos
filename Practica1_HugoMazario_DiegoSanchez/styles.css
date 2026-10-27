@@ -114,15 +114,18 @@ button {
     cursor: pointer;
     font-family: inherit;
     color: #000;
-    transition: background 0.15s, transform 0.05s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.28);
+    transition: background 0.15s, transform 0.05s, box-shadow 0.15s;
 }
 
 button:hover {
     background: #e2e2e2;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.34);
 }
 
 button:active {
     transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.28);
 }
 
 button:focus-visible {
@@ -135,6 +138,11 @@ button:focus-visible {
     font-size: 1.2rem;
     line-height: 1.4;
     font-weight: 500;
+}
+
+.results strong {
+    color: #000;
+    font-weight: 800;
 }
 
 .footer {

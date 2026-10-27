@@ -30,22 +30,45 @@ function iniciar() {
  * @param {Object} resultado - Objeto que contiene todos los contadores de la fábrica y de la estación.
  */
 function mostrarResultado(resultado) {
-    
-    // Total de piezas fabricadas
-    document.getElementById("res-total").textContent = `Piezas totales: ${resultado.total}`;
+    actualizarResultado("res-total", ["Piezas totales: ", resultado.total]);
+    actualizarResultado("res-factoria", [
+        "La factoría ha fabricado: ", resultado.total,
+        " de las cuales ", resultado.electricas,
+        " son de tipo eléctrico y ", resultado.mecanicas,
+        " son de tipo mecánico."
+    ]);
+    actualizarResultado("res-estacion-electricas", [
+        "De las eléctricas, la estación de tratamiento ha aplicado barniz normal a ",
+        resultado.barnizadasNormal,
+        " y ha aplicado barniz especial a ",
+        resultado.barnizadasEspecial,
+        "."
+    ]);
+    actualizarResultado("res-estacion-mecanicas", [
+        "De las mecánicas ha galvanizado: ", resultado.galvanizadas,
+        ", ha pintado ", resultado.pintadas,
+        " y ha pulido ", resultado.pulidas, "."
+    ]);
+}
 
-    // Desglose de la factoría (eléctricas vs mecánicas)
-    document.getElementById("res-factoria").textContent = `La factoría ha fabricado: ${resultado.total} 
-    de las cuales  ${resultado.electricas} son de tipo eléctrico y ${resultado.mecanicas} son de tipo mecánico.`;
-    
-    // Tratamientos aplicados a las piezas eléctricas
-    document.getElementById("res-estacion-electricas").textContent = `De las eléctricas, la estación de tratamiento 
-    ha aplicado barniz normal a ${resultado.barnizadasNormal} y ha aplicado barniz especial a
-    ${resultado.barnizadasEspecial}.`;
-    
-    // Tratamientos aplicados a las piezas mecánicas
-    document.getElementById("res-estacion-mecanicas").textContent = `De las mecánicas ha galvanizado: ${resultado.galvanizadas}
-    ha pintado ${resultado.pintadas} y ha pulido ${resultado.pulidas}.`;
+/**
+ * Muestra los números del resultado resaltados sin interpretar los datos como HTML.
+ * @param {string} id - Identificador del párrafo que se actualizará.
+ * @param {Array<string|number>} partes - Texto y valores numéricos en orden.
+ */
+function actualizarResultado(id, partes) {
+    const elemento = document.getElementById(id);
+    const nodos = partes.map(function (parte) {
+        if (typeof parte === "number") {
+            const numero = document.createElement("strong");
+            numero.textContent = parte;
+            return numero;
+        }
+
+        return document.createTextNode(parte);
+    });
+
+    elemento.replaceChildren(...nodos);
 }
 
 /**
@@ -57,6 +80,5 @@ function simular(cantidad) {
     const resultado = fabrica.fabricar(cantidad);
     mostrarResultado(resultado);       
 }
-
 
 
