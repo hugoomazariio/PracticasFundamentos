@@ -33,7 +33,7 @@ class Fabrica{
         // 
         return{
             // Contadores de la factoría.
-            total: this.factoria.totalElectricas+totalMecanicas,
+            total: this.factoria.totalElectricas + this.factoria.totalMecanicas,
             electricas: this.factoria.totalElectricas,
             mecanicas: this.factoria.totalMecanicas,
 
