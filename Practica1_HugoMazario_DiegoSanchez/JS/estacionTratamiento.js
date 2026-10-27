@@ -1,3 +1,5 @@
+// Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez
+
 /**
  * La estación de tratamiento recibe piezas, mira de qué tipo son 
  * y les aplica el acabado que corresponda.

@@ -1,3 +1,5 @@
+// Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez
+
 /**
  * Clase Hija de Pieza, representa una pieza eléctrica.
  * 

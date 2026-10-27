@@ -1,3 +1,5 @@
+// Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez
+
 /** 
  * La fábrica agrupa las instalaciones (factoría y estación de tratamiento)
  * y coordina el proceso completo: la factoría crea la pieza y la estación 
@@ -14,12 +16,22 @@
 class Fabrica{
 
     constructor(){
+        
         // La fábrica crea sus propias instalaciones. Cada una lleva su cuenta.
-
         this.factoria = new Factoria();
         this.estacion = new EstacionTratamiento();
     }
 
+    /**
+     * Simula la fabricación de "cantidad" piezas: por cada una, la factoría
+     * la genera y la estación de tratamiento la procesa.
+     * 
+     * Los contadores son acumulativos: si se llama dos veces a la misma fábrica,
+     * el resultado suma las dos tandas. Por eso main.js crea una fábrica nueva en cada simulación.
+     * 
+     * @param {number} cantidad - Número de piezas a fabricar (100 o 1000)
+     * @returns {Object} Resultado de la fabricación con todos los contadores
+     */
     fabricar(cantidad){
         for (let i = 0; i < cantidad; i++){
 
