@@ -32,8 +32,15 @@ body {
     padding: 20px 20px 30px;
 }
 
+.header-container {
+    display: flex;
+    justify-content: space-between; /* Título a la izquierda, autores a la derecha */
+    align-items: baseline; /* Alinea ambos textos por la base para que queden a la misma altura */
+    margin-bottom: 18px;
+}
+
 .title {
-    margin: 0 0 6px;
+    margin: 0;
     font-size: 2.6rem;
     line-height: 1.05;
     font-weight: 700;
@@ -41,9 +48,10 @@ body {
 }
 
 .authors {
-    margin: 0 0 18px;
+    margin: 0;
     font-size: 1rem;
-    color: #070707;
+    color: #181818;
+    text-align: right;
 }
 
 .panel {

@@ -2,13 +2,14 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fábrica de Piezas</title>
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Orden importante: primero la clase padre, luego las hijas, al final main -->
+    <!-- El orden es importante -->
     <script src="./JS/pieza.js" defer></script>
     <script src="./JS/piezaElectrica.js" defer></script>
     <script src="./JS/piezaMecanica.js" defer></script>
@@ -17,10 +18,13 @@
     <script src="./JS/fabrica.js" defer></script>
     <script src="./JS/main.js" defer></script>
 </head>
+
 <body>
     <div class="page">
-        <h1 class="title">Fábrica de Piezas</h1>
-        <p class="authors">Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez | 15/10/2026</p>
+        <div class="header-container">
+            <h1 class="title">Fábrica de Piezas</h1>
+            <p class="authors">Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez | 15/10/2026</p>
+        </div>
 
         <div class="panel instructions">
             <p>Pulse "Fabricar 100" para simular la fabricación de 100 piezas.</p>
@@ -48,4 +52,5 @@
         <footer class="footer">Sin recursos externos.</footer>
     </div>
 </body>
+
 </html>
