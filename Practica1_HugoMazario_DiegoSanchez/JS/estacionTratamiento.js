@@ -44,9 +44,9 @@ class EstacionTratamiento {
      * Total de piezas procesadas: suma de todos los tratamientos.
      * Debe coincidir siempre con las piezas que ha generado la factoría.
      */
-    get totalProcesadas(){
+    get totalProcesadas() {
         return this._barnizadasNormal + this._barnizadaEspecial +
-         this._galvanizadas + this._pulidas + this._pintadas;
+            this._galvanizadas + this._pulidas + this._pintadas;
     }
 
 
@@ -65,13 +65,13 @@ class EstacionTratamiento {
         if (pieza.tipo === "electrica") {
 
             // Eléctricas: el tratamiento depende de la potencia
-            if (pieza.potencia <= 5){
+            if (pieza.potencia <= 5) {
 
                 // 1 o 5 W -> barniz normal
                 pieza.procesamiento = "Barnizada normal";
                 this._barnizadasNormal++;
 
-            } else{
+            } else {
 
                 // 10 o 20 W -> barniz especial
                 pieza.procesamiento = "Barnizada especial";
@@ -79,10 +79,10 @@ class EstacionTratamiento {
 
             }
 
-        } else if (pieza.tipo === "mecanica"){
+        } else if (pieza.tipo === "mecanica") {
 
             // Mecánicas: el tratamiento depende del material
-            switch (pieza.material){
+            switch (pieza.material) {
                 case "Acero":
                     pieza.procesamiento = "Galvanizada"
                     this._galvanizadas++;
@@ -94,10 +94,10 @@ class EstacionTratamiento {
                 case "Carbono":
                     pieza.procesamiento = "Pintada"
                     this._pintadas++;
-                    break;        
+                    break;
             }
         }
-        
+
         // Devolvemos la pieza ya "marcada" con su procesamiento
         return pieza;
     }
