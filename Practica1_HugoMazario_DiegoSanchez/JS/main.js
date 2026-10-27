@@ -3,6 +3,9 @@
 // Espera a que todo esté cargado antes de asignar los eventos a los botones
 window.addEventListener("load", iniciar, false);
 
+// Ruta al sonido de botón
+const sonidoBoton = new Audio("./Audio/Sonido_Fabricacion.mp3");
+
 /**
  * Vincula los botones de la interfaz a la función de simulación
  */
@@ -10,11 +13,13 @@ function iniciar() {
 
     // Evento para el botón de fabricar 100 piezas
     document.getElementById("btn-100").addEventListener("click", function () {
+        sonidoBoton.play();
         simular(100);
     }, false);
 
     // Evento para el botón de fabricar 1000 piezas
     document.getElementById("btn-1000").addEventListener("click", function () {
+        sonidoBoton.play();
         simular(1000);
     }, false);
 
