@@ -1,165 +1,237 @@
 /* Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez */
-
+ 
 /*
     Estilos generales de la práctica.
     Aquí se define el cuerpo de la página, el contenedor principal
     y la apariencia visual de los paneles, botones y texto.
 */
-
+ 
+ 
+/*  AJUSTES GENERALES */
+ 
+/*
+    Selector universal: afecta a TODOS los elementos.
+    Con box-sizing: border-box, el ancho y el alto de un elemento incluyen
+    su padding y su borde. Así es más fácil calcular tamaños, porque un
+    panel de 300px mide 300px aunque le añadamos relleno o borde.
+*/
 * {
     box-sizing: border-box;
 }
-
+ 
 /*
     Ajustes base del documento.
     Se elimina el margen por defecto y se establece la fuente y color general.
 */
 body {
-    margin: 0;
+    margin: 0; /* El navegador añade un margen por defecto; lo quitamos */
     background: #d7d7da url("./img/imagenFondo.png") center / cover fixed;
-    color: #000;
+    color: #000; /* Color del texto por defecto */
     font-family: "Trebuchet MS", Verdana, sans-serif;
 }
-
+ 
 /*
     Layout principal de la página.
     Aquí se controlan el ancho máximo, el padding y la alineación del contenido.
 */
-
+ 
 .page {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 20px 20px 30px;
+    max-width: 1320px; /* En pantallas grandes el contenido no se estira más de este ancho */
+    margin: 0 auto;    /* 0 arriba/abajo y "auto" a los lados: centra el contenedor */
+    padding: 20px 20px 30px; /* Relleno interior: arriba 20px, lados 20px, abajo 30px */
 }
-
+ 
+ 
+/* CABECERA  */
+ 
+/* Contenedor del título y de los autores, colocados en una misma fila */
 .header-container {
-    display: flex;
+    display: flex; /* Activa flexbox: los hijos se colocan en fila */
     justify-content: space-between; /* Título a la izquierda, autores a la derecha */
     align-items: baseline; /* Alinea ambos textos por la base para que queden a la misma altura */
-    margin-bottom: 18px;
+    margin-bottom: 18px; /* Espacio hasta el panel de instrucciones */
 }
-
+ 
+/* Título principal de la página */
 .title {
-    margin: 0;
-    font-size: 2.6rem;
-    line-height: 1.05;
-    font-weight: 700;
-    letter-spacing: -1px;
+    margin: 0;           /* Quitamos el margen por defecto del h1 */
+    font-size: 2.6rem;   /* rem = múltiplo del tamaño de letra base (2.6 veces) */
+    line-height: 1.05;   /* Altura de línea ajustada para que quede compacto */
+    font-weight: 700;    /* Negrita */
+    letter-spacing: -1px; /* Letras ligeramente más juntas, da aspecto de titular */
 }
-
+ 
+/* Línea con los autores y la fecha de creación */
 .authors {
     margin: 0;
     font-size: 1rem;
-    color: #181818;
-    text-align: right;
+    color: #181818;   
+    text-align: right;  /* Texto pegado a la derecha */
     font-weight: 700;
 }
-
+ 
+ 
+/* PANELES */
+ 
+/*
+    Estilo común de los recuadros (instrucciones, botones y resultados).
+    Se aplica a todo elemento con class="panel".
+*/
 .panel {
-    border: 2px solid #333;
+    border: 2px solid #333; /* Borde sólido gris muy oscuro de 2px */
+ 
+    /*
+        Se superponen DOS capas de fondo (la primera queda por encima):
+          - Un degradado de blanco semitransparente a blanco semitransparente,
+             o sea, un "velo" blanco al 25% que aclara la textura para que
+             el texto se lea mejor
+          - La imagen de textura metálica
+    */
     background:
         linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)),
         url("./img/imagenCuadrados.png") center / cover;
+ 
+    /* Sombra: desplazamiento horizontal 0, vertical 8px, desenfoque 20px,
+       negro al 24% de opacidad. Da sensación de que el panel flota */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
 }
-
+ 
+/* Panel superior con el texto de indicaciones de uso */
 .instructions {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100px;
-    padding: 18px 26px;
+    flex-direction: column;     /* Los párrafos se apilan uno debajo de otro */
+    justify-content: center;    /* Con columna, esto los centra en vertical */
+    min-height: 100px;          /* Altura mínima; crece si hay más texto */
+    padding: 18px 26px;         /* Relleno: 18px arriba/abajo y 26px a los lados */
     font-size: 1.3rem;
-    font-weight: 500;
-    margin-bottom: 28px;
+    font-weight: 500;           /* Peso intermedio entre normal (400) y negrita (700) */
+    margin-bottom: 28px;        /* Separación con las dos zonas de abajo */
 }
-
+ 
+/* Cada línea de instrucciones: poco margen para que queden juntas */
 .instructions p {
     margin: 4px 0;
 }
-
+ 
+/*
+    Fila que contiene los dos paneles principales:
+    zona de botones (izquierda) y zona de resultados (derecha).
+*/
 .main-layout {
     display: flex;
-    align-items: stretch;
-    gap: 42px;
-    margin-bottom: 28px;
+    align-items: stretch; /* Los dos paneles se estiran hasta tener la misma altura */
+    gap: 42px;            /* Espacio entre el panel de botones y el de resultados */
+    margin-bottom: 28px;  /* Separación con el pie de página */
 }
-
+ 
+/* Panel de la zona de interacción (botones) */
 .controls {
-    flex: 1;
+    flex: 1;            /* Reparto del ancho: este panel toma 1 parte... */
     min-height: 340px;
     padding: 16px 28px 24px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Título del panel arriba y botones debajo */
 }
-
+ 
+/* Panel de la zona de visualización de resultados */
 .results {
-    flex: 1.4;
+    flex: 1.4;          /* este toma 1,4 partes, es más ancho porque lleva más texto */
     min-height: 340px;
     padding: 16px 30px 20px;
-    overflow-wrap: anywhere;
+    overflow-wrap: anywhere; /* Si una palabra es demasiado larga, se parte en vez de desbordar el panel */
 }
-
+ 
+/* Títulos de los paneles ("Simulación" y "Resultado de la simulación") */
 h2 {
-    margin: 0 0 22px;
+    margin: 0 0 22px;  /* Abreviatura: arriba 0, lados 0, abajo 22px */
     font-size: 1.8rem;
     line-height: 1.2;
     font-weight: 500;
 }
-
+ 
+ 
+/* BOTONES */
+ 
+/* Contenedor que agrupa "Fabricar 100" y "Fabricar 1000" */
 .buttons {
     display: flex;
-    gap: 26px;
+    gap: 26px;         /* Espacio entre un botón y otro */
     margin-top: 10px;
-    flex-wrap: wrap;
+    flex-wrap: wrap;   /* Si no caben en una línea, el segundo baja a la siguiente */
 }
-
+ 
+/* Aspecto normal de los botones */
 button {
-    background: #f8f8f8;
+    background: #f8f8f8;       /* Casi blanco */
     border: 3px solid #000;
     font-size: 1.3rem;
-    padding: 14px 24px;
-    min-width: 170px;
-    cursor: pointer;
-    font-family: inherit;
+    padding: 14px 24px;        /* Relleno: 14px arriba/abajo y 24px a los lados */
+    min-width: 170px;          /* Ancho mínimo para que ambos botones se vean parecidos */
+    cursor: pointer;           /* El cursor se convierte en la manita al pasar por encima */
+    font-family: inherit;      /* Por defecto los botones ignoran la fuente de la página; así la heredan */
     color: #000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.28);
+ 
+    /* Los cambios de fondo, posición y sombra se hacen de forma suave
+       (en 0,15 s / 0,05 s) en lugar de saltar de golpe */
     transition: background 0.15s, transform 0.05s, box-shadow 0.15s;
 }
-
+ 
+/* Cuando el ratón está encima: fondo más oscuro y sombra más grande */
 button:hover {
     background: #e2e2e2;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.34);
 }
-
+ 
+/* Mientras se mantiene pulsado: baja 2px y la sombra se encoge,
+   simulando que el botón se hunde. Así el usuario nota que ha pulsado */
 button:active {
     transform: translateY(2px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.28);
 }
-
+ 
+/*  Accesibilidad: contorno azul cuando se llega al botón con el teclado. 
+    focus-visible no se muestra al hacer clic con el ratón */
 button:focus-visible {
     outline: 3px solid #1a73e8;
-    outline-offset: 3px;
+    outline-offset: 3px; /* Separa el contorno del borde del botón */
 }
-
+ 
+ 
+/* TEXTO DE RESULTADOS */
+ 
+/* Cada línea de resultados de la simulación */
 .results p {
-    margin: 0 0 18px;
+    margin: 0 0 18px;   /* Solo margen inferior, para separar las líneas */
     font-size: 1.2rem;
-    line-height: 1.4;
+    line-height: 1.4;   /* Más espacio entre líneas para leer mejor */
     font-weight: 500;
 }
-
+ 
+/* Negrita dentro de los resultados */
 .results strong {
     color: #000;
     font-weight: 800;
 }
+ 
+ 
+/* PIE DE PÁGINA */
+ 
+/*
+    Pie de página con los recursos externos.
+    Disposición en fila: título a la izquierda y lista de recursos a la derecha.
+*/
 
 .footer {
     display: flex;
-    align-items: center;
+    align-items: center; /* Centra el título verticalmente respecto a la lista */
+    gap: 24px;           /* Separación entre el título y la lista */
     min-height: 60px;
-    padding: 0 22px;
+    padding: 12px 22px;
     border: 2px solid #333;
+ 
+    /* Mismo fondo que los paneles, pero con el velo blanco más fuerte (55%)
+       porque aquí hay más texto pequeño que debe leerse bien */
     background:
         linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)),
         url("./img/imagenCuadrados.png") center / cover;
@@ -167,16 +239,71 @@ button:focus-visible {
     font-size: 1.1rem;
     font-weight: 700;
 }
-
+ 
+/* "Recursos externos utilizados:" (sin margen para que quede centrado) */
+.footer p {
+    margin: 0;
+}
+ 
+/* Lista de recursos */
+.footer ul {
+    margin: 0;           /* Quitamos el margen por defecto de las listas */
+    padding-left: 20px;  /* Espacio para las viñetas */
+}
+ 
+/*
+    Enlaces del pie: azul oscuro fijo (también una vez visitados) para que
+    se lean bien sobre la textura y no cambien a morado.
+    ":visited" es el estado de un enlace que ya se ha pulsado antes.
+*/
+.footer a,
+.footer a:visited {
+    color: #0b3d91;
+    overflow-wrap: anywhere; /* Los enlaces largos se parten si no caben */
+}
+ 
+/* Al pasar el ratón por un enlace, se vuelve negro */
+.footer a:hover {
+    color: #000;
+}
+ 
+ 
+/* PANTALLAS PEQUEÑAS (móviles y tablets) */
+ 
+/*
+    Media query: las reglas de dentro solo se aplican cuando la ventana
+    mide 900px de ancho o menos. Sustituyen a las de arriba.
+*/
 @media (max-width: 900px) {
+ 
+    /* Los dos paneles principales pasan de ir en fila a ir uno debajo del otro */
     .main-layout {
         flex-direction: column;
     }
-
+ 
+    /* Título algo más pequeño para que quepa */
     .title {
         font-size: 2rem;
     }
-
+ 
+    /* En pantallas estrechas la cabecera pasa a columna: título arriba y autores debajo */
+    .header-container {
+        flex-direction: column;
+        gap: 6px;
+    }
+ 
+    .authors {
+        text-align: left;
+    }
+ 
+    /* En pantallas estrechas el pie pasa a columna: título arriba y lista debajo */
+    .footer {
+        flex-direction: column;
+        align-items: flex-start; /* Todo alineado a la izquierda */
+        gap: 6px;
+    }
+ 
+    /* Tamaño de letra reducido en todos estos elementos a la vez */
     .instructions,
     .footer,
     .results p,
@@ -185,3 +312,4 @@ button:focus-visible {
         font-size: 1.1rem;
     }
 }
+ 
