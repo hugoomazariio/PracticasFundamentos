@@ -12,7 +12,7 @@ class EstacionTratamiento {
     constructor() {
         // Contadores internos, uno por cada tratamiento
         this._barnizadasNormal = 0;
-        this._barnizadaEspecial = 0;
+        this._barnizadasEspecial = 0;
         this._galvanizadas = 0;
         this._pulidas = 0;
         this._pintadas = 0;
@@ -21,23 +21,23 @@ class EstacionTratamiento {
     // Getters
 
     get barnizadasNormal() {
-        return this._barnizadasNormal
+        return this._barnizadasNormal;
     }
 
-    get barnizadasEpecial() {
-        return this._barnizadaEspecial
+    get barnizadasEspecial() {
+        return this._barnizadasEspecial;
     }
 
     get galvanizadas() {
-        return this._galvanizadas
+        return this._galvanizadas;
     }
 
     get pulidas() {
-        return this._pulidas
+        return this._pulidas;
     }
 
     get pintadas() {
-        return this._pintadas
+        return this._pintadas;
     }
 
     /**
@@ -45,7 +45,7 @@ class EstacionTratamiento {
      * Debe coincidir siempre con las piezas que ha generado la factoría.
      */
     get totalProcesadas() {
-        return this._barnizadasNormal + this._barnizadaEspecial +
+        return this._barnizadasNormal + this._barnizadasEspecial +
             this._galvanizadas + this._pulidas + this._pintadas;
     }
 
@@ -75,7 +75,7 @@ class EstacionTratamiento {
 
                 // 10 o 20 W -> barniz especial
                 pieza.procesamiento = "Barnizada especial";
-                this._barnizadaEspecial++;
+                this._barnizadasEspecial++;
 
             }
 
