@@ -3,7 +3,7 @@
 /**
  * Aquí solo van los atributos que comparten todas las piezas (eléctricas y mecánicas)
  * - Nombre (subtipo)
- * - Código ( 10 cifras + letra E o N)
+ * - Código ( 10 cifras + letra E o M)
  * - Fecha de fabricación
  * 
  * Además añadimos "procesamiento": Todas las piezas acaban siendo tratadas

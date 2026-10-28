@@ -1,7 +1,7 @@
 // Programa realizado por Hugo Mazarío Ros y Diego Sánchez Álvarez
 
 /**
- * Clase Hija de Pieza, representa una pieza eléctrica.
+ * Clase Hija de Pieza, representa una pieza mecánica.
  * 
  * Hereda de la clase Pieza, por lo que tiene todos sus atributos y métodos.
  * Aquí solo añadimos lo que es propio de las piezas mecánicas: el material de fabricación.
