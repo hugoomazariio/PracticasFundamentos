@@ -54,7 +54,7 @@ class Mundo {
         }
     }
 
-    // Interacciones con el ratón
+    ////////////////////////////////////// Interacciones con el ratón /////////////////////////////////////
 
     // Lógica del juego
 
@@ -113,7 +113,7 @@ class Mundo {
             }
 
         }
-        
+
         turnos++;
     }
 }
