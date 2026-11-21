@@ -22,11 +22,16 @@ class Mundo {
 
         this.turnos = 0;
         this.enEjecucion = false;
+        this.mostrarCuadricula = true; // Controla si se dibuja la cuadrícula
     }
 
+    // Activa o desactiva la visibilidad de la cuadrícula
+    alternarCuadricula() {
+        this.mostrarCuadricula = !this.mostrarCuadricula;
+        this.dibujar();
+    }
 
     // Dibujo en pantalla
-
     dibujar() {
         const contexto = this.contexto; // "Pincel" del canvas
         const tamanioCelda = this.tamanioCelda;
@@ -47,17 +52,16 @@ class Mundo {
                 // pintar un cuadrado
                 contexto.fillRect(columna * tamanioCelda, fila * tamanioCelda, tamanioCelda, tamanioCelda);
 
-                // Borde de la casilla
-                contexto.strokeStyle = "#444444";
-                contexto.strokeRect(columna * tamanioCelda, fila * tamanioCelda, tamanioCelda, tamanioCelda);
+                // Borde de la casilla (solo si la cuadricula está activada)
+                if (this.mostrarCuadricula) {
+                    contexto.strokeStyle = "#444444";
+                    contexto.strokeRect(columna * tamanioCelda, fila * tamanioCelda, tamanioCelda, tamanioCelda);
+                }
             }
         }
     }
 
-    ////////////////////////////////////// Interacciones con el ratón /////////////////////////////////////
-
     // Lógica del juego
-
     contarVecinasVivas(fila, columna) {
         let vivas = 0;
 
@@ -81,9 +85,7 @@ class Mundo {
 
     siguienteTurno() {
         // Calculamos el estado que tendrá cada célula en el turno siguiente
-
         const siguiente = [];
-
 
         for (let fila = 0; fila < this.casillasPorLado; fila++) {
             siguiente[fila] = [];
@@ -94,15 +96,11 @@ class Mundo {
 
                 if (!estaViva && vecinas === 3) {
                     siguiente[fila][columna] = true;
-
                 } else if (estaViva && (vecinas === 2 || vecinas === 3)) {
                     siguiente[fila][columna] = true;
-
                 } else {
                     siguiente[fila][columna] = false;
-
                 }
-
             }
         }
 
