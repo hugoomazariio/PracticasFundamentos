@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,28 +10,48 @@
     <script src="JS/celula.js" defer></script>
     <script src="JS/mundo.js" defer></script>
     <script src="JS/main.js" defer></script>
-
 </head>
+
 <body>
     <h1>El Juego de la Vida</h1>
 
-    <!-- Aquí se dibuja el mundo-->
-    <canvas id="canvasMundo"></canvas>
+    <!-- Canvas  + Selector de figuras -->
+    <div class="zona-juego">
+        <canvas id="canvasMundo"></canvas>
+
+        <div class="panel-figuras">
+            <h3>Herramienta / Figura</h3>
+            <button class="btn-figura activo" data-figura="celula">Célula suelta</button>
+
+            <h4>Vidas estáticas</h4>
+            <button class="btn-figura" data-figura="bote">Bote</button>
+            <button class="btn-figura" data-figura="pan">Pan</button>
+
+            <h4>Osciladores</h4>
+            <button class="btn-figura" data-figura="intermitente">Intermitente</button>
+            <button class="btn-figura" data-figura="sapo">Sapo</button>
+
+            <h4>Naves espaciales</h4>
+            <button class="btn-figura" data-figura="planeador">Planeador</button>
+            <button class="btn-figura" data-figura="navePesada">Nave espacial pesada</button>
+        </div>
+    </div>
 
     <!-- Botones de control de la simulación -->
-    <div>
+    <div class="controles">
         <button id="btnReset">Reiniciar</button>
         <button id="btnIniciar">Jugar</button>
         <button id="btnDetener">Detener</button>
         <button id="btnSiguienteGen">Siguiente generación</button>
-
-        <!-- Zoom in, zoom out, cuadricula (anterior generación)-->
-        <button id="btnCuadricula">Ocultar cuadricula</button>
+        <button id="btnCuadricula">Ocultar cuadrícula</button>
     </div>
+
+    <p id="infoCelula">Pasa el ratón sobre una célula</p>
 
     <footer>
         <p>Autores: Hugo Mazarío Ros y Diego Sánchez Álvarez - 21/11/2026</p>
         <p>Fundamentos de Tecnología de Videojuegos - Práctica 2</p>
     </footer>
 </body>
+
 </html>
