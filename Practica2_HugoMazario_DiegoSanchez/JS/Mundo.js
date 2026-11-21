@@ -6,8 +6,8 @@ class Mundo {
         this.tamanioCelda = tamanioCelda;
 
         this.canvas = canvas;
-        this.canvas.ancho = casillasPorLado * tamanioCelda;
-        this.canvas.alto = casillasPorLado * tamanioCelda;
+        this.canvas.width = casillasPorLado * tamanioCelda;
+        this.canvas.height = casillasPorLado * tamanioCelda;
 
         this.contexto = canvas.getContext("2d");
 
@@ -32,16 +32,16 @@ class Mundo {
         const tamanioCelda = this.tamanioCelda;
 
         // Borrar lo pintado antes
-        contexto.clearRect(0, 0, this.canvas.ancho, this.canvas.alto);
+        contexto.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // for de filas
         for (let fila = 0; fila < this.casillasPorLado; fila++) {
             for (let columna = 0; columna < this.casillasPorLado; columna++) {
 
                 if (this.matriz[fila][columna].viva) {
-                    contextofillStyle = "#4cd964";
+                    contexto.fillStyle = "#4cd964";
                 } else {
-                    contextofillStyle = "#222222";
+                    contexto.fillStyle = "#222222";
                 }
 
                 // pintar un cuadrado
@@ -93,27 +93,26 @@ class Mundo {
                 const estaViva = this.matriz[fila][columna].viva;
 
                 if (!estaViva && vecinas === 3) {
-                    siguiente[filas][columna] = true
+                    siguiente[fila][columna] = true;
 
                 } else if (estaViva && (vecinas === 2 || vecinas === 3)) {
-                    siguiente[filas][columna] = true;
+                    siguiente[fila][columna] = true;
 
                 } else {
-                    siguiente[filas][columna] = false;
+                    siguiente[fila][columna] = false;
 
                 }
 
             }
-
-            // Aplicar los nuevos estados a las células 
-            for (let fila = 0; fila < this.casillasPorLado; fila++) {
-                for (let columna = 0; columna < this.casillasPorLado; columna++) {
-                    this.matriz[fila][columna].actualizar(siguiente[fila][columna]);
-                }
-            }
-
         }
 
-        turnos++;
+        // Aplicar los nuevos estados a las células
+        for (let fila = 0; fila < this.casillasPorLado; fila++) {
+            for (let columna = 0; columna < this.casillasPorLado; columna++) {
+                this.matriz[fila][columna].actualizar(siguiente[fila][columna]);
+            }
+        }
+
+        this.turnos++;
     }
 }

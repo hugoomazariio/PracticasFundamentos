@@ -10,7 +10,7 @@ const btnIniciar = document.getElementById("btnIniciar");
 const btnDetener = document.getElementById("btnDetener");
 const btnSiguienteGen = document.getElementById("btnSiguienteGen");
 
-const mundo = new Mundo(TAMANO_MUNDO, TAM_CELDA, PASOS_POR_SEGUNDA);
+const mundo = new Mundo(TAMANO_MUNDO, canvas, TAM_CELDA);
 
 let timer = null; 
 
@@ -40,21 +40,35 @@ function iniciar(){
         return;
     }
 
-    temporizador = setInterval(paso, 1000 / PASOS_POR_SEGUNDO);
+    timer = setInterval(paso, 1000 / PASOS_POR_SEGUNDO);
 }
 
 function detener(){
-    clearInterval(temporizador);
-    temporizador = null;
+    clearInterval(timer);
+    timer = null;
+}
+
+function reiniciar(){
+    detener();
+    for (let fila = 0; fila < TAMANO_MUNDO; fila++){
+        for (let columna = 0; columna < TAMANO_MUNDO; columna++){
+            mundo.matriz[fila][columna].viva = false;
+        }
+    }
+    mundo.turnos = 0;
+    colocarFigura(PLANEADOR, 2, 2);
+    colocarFigura(PARPADEADOR, 20, 20);
+    mundo.dibujar();
 }
 
 // Evento botones
+btnReset.addEventListener("click", reiniciar);
 btnIniciar.addEventListener("click", iniciar);
-btnIniciar.addEventListener("click", detener);
+btnDetener.addEventListener("click", detener);
+btnSiguienteGen.addEventListener("click", paso);
 
 
 // Arranque
 colocarFigura(PLANEADOR, 2, 2);
 colocarFigura(PARPADEADOR, 20, 20);
 mundo.dibujar();
-
