@@ -111,7 +111,7 @@ botonesFigura.forEach((boton) => {
 
 // Interacción con el ratón (clic izquierdo solo cuando está detenido)
 canvas.addEventListener("mousedown", function (evento) {
-    if (evento.button === 0 && timer === null) {
+    if (evento.button === 0) {
         const rect = canvas.getBoundingClientRect();
         const x = evento.clientX - rect.left;
         const y = evento.clientY - rect.top;
