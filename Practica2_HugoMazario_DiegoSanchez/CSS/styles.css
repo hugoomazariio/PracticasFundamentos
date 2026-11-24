@@ -1,3 +1,4 @@
+/* Estilos generales de la pagina */
 body {
     margin: 20px;
     text-align: center;
@@ -6,6 +7,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* Contenedor principal que agrupa el area de juego y el panel */
 .zona-juego {
     display: flex;
     justify-content: center;
@@ -14,11 +16,13 @@ body {
     margin: 20px auto;
 }
 
+/* Zona donde se dibujan las figuras */
 canvas {
     display: block;
     border: 2px solid #777777;
 }
 
+/* Panel lateral con las opciones de figuras */
 .panel-figuras {
     background: #1c1c1c;
     border: 2px solid #444444;
@@ -30,6 +34,7 @@ canvas {
     text-align: left;
 }
 
+/* Titulo principal del panel */
 .panel-figuras h3 {
     margin: 0 0 10px 0;
     font-size: 16px;
@@ -38,12 +43,14 @@ canvas {
     padding-bottom: 6px;
 }
 
+/* Titulos de las categorias dentro del panel */
 .panel-figuras h4 {
     margin: 12px 0 4px 0;
     font-size: 13px;
     color: #aaaaaa;
 }
 
+/* Botones usados para seleccionar una figura */
 .btn-figura {
     width: 100%;
     margin: 3px 0;
@@ -56,10 +63,12 @@ canvas {
     cursor: pointer;
 }
 
+/* Cambio visual al pasar el cursor sobre un boton */
 .btn-figura:hover {
     background: #3a3a3a;
 }
 
+/* Estilo del boton que representa la figura seleccionada */
 .btn-figura.activo {
     background: #4cd964;
     color: #111111;
@@ -67,10 +76,12 @@ canvas {
     border-color: #4cd964;
 }
 
+/* Contenedor de los botones de control */
 .controles {
     margin-top: 10px;
 }
 
+/* Estilos generales de los botones de control */
 button {
     margin: 4px;
     padding: 8px 12px;

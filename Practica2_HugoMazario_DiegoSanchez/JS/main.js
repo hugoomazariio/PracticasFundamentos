@@ -67,6 +67,13 @@ function colocarFigura(figura, fila, columna) {
 function paso() {
     mundo.siguienteTurno();
     mundo.dibujar();
+
+    // Información de los pasos
+
+    const infoPasos = document.getElementById("infoPasos");
+
+     infoPasos.textContent = "Simulación en marcha: Paso " + mundo.turnos;
+
 }
 
 function iniciar() {
@@ -129,6 +136,37 @@ canvas.addEventListener("mousedown", function (evento) {
         }
     }
 });
+
+// Información de la célula
+
+const infoCelula = document.getElementById("infoCelula");
+
+
+canvas.addEventListener("mousemove", function (evento) {
+    // Posición del ratón
+    const rect = canvas.getBoundingClientRect();
+    const x = evento.clientX - rect.left;
+    const y = evento.clientY - rect.top;
+
+    const columna = Math.floor(x / TAM_CELDA);
+    const fila = Math.floor(y / TAM_CELDA);
+
+    // Solo si la casilla existe
+
+    if (fila >= 0 && fila < TAMANO_MUNDO && columna >= 0 && columna < TAMANO_MUNDO) {
+        const celula = mundo.matriz[fila][columna];
+        const estado = celula.viva ? "viva" : "muerta";
+        infoCelula.textContent = "Célula (" + fila + ", " + columna + "): " +
+            estado + " desde hace " + celula.tiempo + " pasos";
+    }
+});
+
+canvas.addEventListener("mouseleave", function (evento) {
+    infoCelula.textContent = "Pasa el ratón sobre una célula";
+});
+
+
+
 
 // Evento botones
 btnReset.addEventListener("click", reiniciar);
