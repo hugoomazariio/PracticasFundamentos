@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 
+<!-- 
+    El Juego de la Vida
+    Autores:  Hugo Mazarío Ros y Diego Sánchez Álvarez
+    Fecha de creación: 21/11/2026
+    Fundamentos de Tecnología de Videojuegos - Práctica 2
+-->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Juego de la Vida</title>
 
     <link rel="stylesheet" href="CSS/styles.css">
-    <script src="JS/celula.js" defer></script>
+    <!--Scripts. "defer" hace que se ejecute cuando la página ya está cargada
+        (así los elementos del HTML ua existen) y en este mismo orden:
+        primero las clases (Celula, Mundo) y alfinal main.js, que las usa.     
+    -->
+    <script src="JS/Celula.js" defer></script>
     <script src="JS/Mundo.js" defer></script>
     <script src="JS/main.js" defer></script>
 </head>
@@ -15,10 +26,12 @@
 <body>
     <h1>El Juego de la Vida</h1>
 
-    <!-- Canvas  + Selector de figuras -->
+    <!-- Zona de juego: el canvas donde se dibuja el mundo (su tamaño lo
+     fija Mundo.js según TAMANO_MUNDO) + el panel para elegir qué se coloca al hacer clic  -->
     <div class="zona-juego">
         <canvas id="canvasMundo"></canvas>
 
+        <!-- Selector de figuras -->
         <div class="panel-figuras">
             <h3>Herramienta / Figura</h3>
             <button class="btn-figura activo" data-figura="celula">Célula suelta</button>
@@ -46,7 +59,10 @@
         <button id="btnCuadricula">Ocultar cuadrícula</button>
     </div>
 
-    <p id = "infoPasos"> Simulación detenida.</p>
+    <!-- Estado de la simulación y número de paso-->
+    <p id="infoPasos"> Simulación detenida.</p>
+
+    <!-- Información de la célula bajo el ratón: estado y tiempo que lleva así-->
     <p id="infoCelula">Pasa el ratón sobre una célula</p>
 
     <footer>

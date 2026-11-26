@@ -1,17 +1,36 @@
+// Mundo.js
+// Autores: Hugo Mazarío Ros y Diego Sánchez Álvarez
+
+/**
+ * Modela el mundo del juego de la vida: una matriz cuadrada de células
+ * que se dibuja en un canvas y que sabe calculas su propia evolución. 
+ * El mundo es "infinito": el borde superior continúa en el inferior
+ * y el izquierdo en el derecho.
+ */
 class Mundo {
 
+    /**
+     * 
+     * @param {number} casillasPorLado - Celulas por lado (el mundo es de N x N).
+     * @param {HTMLCanvasElement} canvas - Canvas donde se dibuja el mundo. 
+     * @param {number} tamanioCelda - Píxeles que mide cada casillas.
+     */
     constructor(casillasPorLado, canvas, tamanioCelda) {
 
         this.casillasPorLado = casillasPorLado;
         this.tamanioCelda = tamanioCelda;
 
+        // El tamaño del canvas en píxeles se calcula a partir del número de 
+        // casillas, así al cambiar el tamaño del mundo no hay que tocar el HTML.
         this.canvas = canvas;
         this.canvas.width = casillasPorLado * tamanioCelda;
         this.canvas.height = casillasPorLado * tamanioCelda;
 
+        // Contexto 2D: el "pincel" con el que se dibuja el canvas.
         this.contexto = canvas.getContext("2d");
 
-        // Matriz 
+        // Matriz bidimensional de N x N células
+        // this.matriz[fila][columna] es la célula de esa posición.
         this.matriz = [];
         for (let fila = 0; fila < casillasPorLado; fila++) {
             this.matriz[fila] = [];
@@ -20,36 +39,44 @@ class Mundo {
             }
         }
 
+        // Número de turnos (pasos) que se han simulado desde el inicio
         this.turnos = 0;
-        this.enEjecucion = false;
         this.mostrarCuadricula = true; // Controla si se dibuja la cuadrícula
     }
 
-    // Activa o desactiva la visibilidad de la cuadrícula
+    /**
+     * Muestra u oculta la cuadrícula y redibuja el mundo
+     * para que el cambio se vea al instante.
+     */
     alternarCuadricula() {
         this.mostrarCuadricula = !this.mostrarCuadricula;
         this.dibujar();
     }
 
-    // Dibujo en pantalla
+    /**
+     * Borra el canvas y dibuja todas las células del mundo:
+     * verde si están vivas y gris oscuro si están muertas.
+     */
     dibujar() {
-        const contexto = this.contexto; // "Pincel" del canvas
+        const contexto = this.contexto; // "Pincel" del canvas.
         const tamanioCelda = this.tamanioCelda;
 
-        // Borrar lo pintado antes
+        // Borramos lo pintado en el turno anterior.
         contexto.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // for de filas
+        // Recorremos la matriz: primero cada fila y, dentro, cada columna.
         for (let fila = 0; fila < this.casillasPorLado; fila++) {
             for (let columna = 0; columna < this.casillasPorLado; columna++) {
 
+                // El color depende del estado de la célula.
                 if (this.matriz[fila][columna].viva) {
                     contexto.fillStyle = "#4cd964";
                 } else {
                     contexto.fillStyle = "#222222";
                 }
 
-                // pintar un cuadrado
+                // Pintamos el cuadrado de la casillas. La posicón x depende 
+                // de la columna y la y de la fila.
                 contexto.fillRect(columna * tamanioCelda, fila * tamanioCelda, tamanioCelda, tamanioCelda);
 
                 // Borde de la casilla (solo si la cuadricula está activada)
@@ -61,17 +88,30 @@ class Mundo {
         }
     }
 
-    // Lógica del juego
+    /**
+     * Cuenta cuantas de las 8 células vecinas de (fila, columna) están vivas.
+     * El mundo es "infinito": las casillas del borde tienen como vecinas
+     * las del borde opuesto.
+     * @param {number} fila 
+     * @param {number} columna 
+     * @returns {number} Número de vecinas vivas (de 0 a 8).
+     */
     contarVecinasVivas(fila, columna) {
         let vivas = 0;
 
+        // Los desplazamientos -1, 0 y +1 en filas y columnas recorren el 
+        // cuadrado de 3x3 casillas que rodea a la célula.
         for (let desplazamientoFilas = -1; desplazamientoFilas <= 1; desplazamientoFilas++) {
             for (let desplazamientoColumnas = -1; desplazamientoColumnas <= 1; desplazamientoColumnas++) {
 
+                // El desplazamiento (0, 0) es la propia célula:no es vecina de sí misma
                 if (desplazamientoFilas === 0 && desplazamientoColumnas === 0) {
                     continue; // Salta a la siguiente vuelta del bucle
                 }
 
+                // Mundo infinito: el modulo (%) hace que la posición "de la vuelta"
+                // al llegar al borde. Se suma casillasPorLado antes del módulo porque
+                // en JavaScript un resultado negativo (-1 % 40) daría -1 en vez de 39.
                 const f = (fila + desplazamientoFilas + this.casillasPorLado) % this.casillasPorLado;
                 const c = (columna + desplazamientoColumnas + this.casillasPorLado) % this.casillasPorLado;
 
@@ -83,8 +123,15 @@ class Mundo {
         return vivas;
     }
 
+    /**
+     * Avanza el mundo un turno aplicando las reglas del juego de la vida.
+     * Todas las células se actualizan a la vez, por eso se hace en dos pasos:
+     * primero se calcula el estado de todas y después se aplica.
+     * Si se cambiara cada célula nada más calcularla, las siguientes contarían
+     * vecinas que ya han cambiado en este mismo turno.
+     */
     siguienteTurno() {
-        // Calculamos el estado que tendrá cada célula en el turno siguiente
+        // Calculamos el estado que tendrá cada célula en el turno siguiente.
         const siguiente = [];
 
         for (let fila = 0; fila < this.casillasPorLado; fila++) {
@@ -95,10 +142,14 @@ class Mundo {
                 const estaViva = this.matriz[fila][columna].viva;
 
                 if (!estaViva && vecinas === 3) {
+                    // Muerta con exactamente 3 vecinas vivas: nace.
                     siguiente[fila][columna] = true;
                 } else if (estaViva && (vecinas === 2 || vecinas === 3)) {
+                    // Viva con 2 o 3 vecinas vivas: sigue viva.
                     siguiente[fila][columna] = true;
                 } else {
+                    // Resto de casos: muere o sigue muerta
+                    // (soledad con menos de 2 vecinas, superpoblación con más de 3).
                     siguiente[fila][columna] = false;
                 }
             }
@@ -111,6 +162,7 @@ class Mundo {
             }
         }
 
+        // Un turno más simulado.
         this.turnos++;
     }
 }
