@@ -157,15 +157,9 @@ function detener() {
  */
 function reiniciar() {
     detener();
-    for (let fila = 0; fila < TAMANO_MUNDO; fila++) {
-        for (let columna = 0; columna < TAMANO_MUNDO; columna++) {
-            mundo.matriz[fila][columna].viva = false;
-            mundo.matriz[fila][columna].tiempo = 0;
-        }
-    }
-    mundo.turnos = 0;
-    colocarFigura(FIGURAS.planeador, 2, 2);
-    colocarFigura(FIGURAS.intermitente, 20, 20);
+    mundo.limpiar();
+    mundo.colocarFigura(FIGURAS.planeador, 2, 2);
+    mundo.colocarFigura(FIGURAS.intermitente, 20, 20);
     mundo.dibujar();
     actualizarInfoPasos(); // Para que muestre "paso 0"
 }
@@ -225,7 +219,7 @@ canvas.addEventListener("mousedown", function (evento) {
                 mundo.matriz[casilla.fila][casilla.columna].alternar();
             } else if (FIGURAS[figuraSeleccionada]) {
                 // La coloca con la casilla como esquina.
-                colocarFigura(FIGURAS[figuraSeleccionada], casilla.fila, casilla.columna);
+                mundo.colocarFigura(FIGURAS[figuraSeleccionada], casilla.fila, casilla.columna);
             }
             mundo.dibujar();
             actualizarInfoCelula();
@@ -277,6 +271,6 @@ btnCuadricula.addEventListener("click", alternarCuadricula);
 // ARRANQUE
 
 // El estado inicial es un planeador y un intermitente para ver algo al abrir la página
-colocarFigura(FIGURAS.planeador, 2, 2);
-colocarFigura(FIGURAS.intermitente, 20, 20);
+mundo.colocarFigura(FIGURAS.planeador, 2, 2);
+mundo.colocarFigura(FIGURAS.intermitente, 20, 20);
 mundo.dibujar();

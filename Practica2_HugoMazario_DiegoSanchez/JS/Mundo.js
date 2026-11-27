@@ -54,6 +54,39 @@ class Mundo {
     }
 
     /**
+     * Mata todas las células, reinicia sus contadores de tiempo y pone
+     * a 0 el número de turnos.
+     */
+    limpiar() {
+        for (let fila = 0; fila < this.casillasPorLado; fila++) {
+            for (let columna = 0; columna < this.casillasPorLado; columna++) {
+                this.matriz[fila][columna].viva = false;
+                this.matriz[fila][columna].tiempo = 0;
+
+            }
+        }
+        this.turnos = 0;
+    }
+
+    /**
+     * Pone vivas las células de una figura, tomando (fila, columna) como
+     * esquina superior izquierda. Si la figura se sale por un borde, 
+     * continúa por el lado opuesto (mundo infinito).
+     * @param {Array} figura - Lista de posiciones [fila, columna] relativas.
+     * @param {number} fila - Fila donde se coloca la figura.
+     * @param {number} columna - Columna donde se coloca la figura.
+     */
+    colocarFigura(figura, fila, columna) {
+        for (const [desplazamientoFila, desplazamientoColumna] of figura) {
+
+            // El módulo hace que las posiciones que se salen del mundo den la vuelta
+            const f = (fila + desplazamientoFila + this.casillasPorLado) % this.casillasPorLado;
+            const c = (columna + desplazamientoColumna + this.casillasPorLado) % this.casillasPorLado;
+            mundo.matriz[f][c].viva = true;
+            mundo.matriz[f][c].tiempo = 0; // Acaba de aparecer: lleva 0 pasos viva.
+        }
+    }
+    /**
      * Borra el canvas y dibuja todas las células del mundo:
      * verde si están vivas y gris oscuro si están muertas.
      */
