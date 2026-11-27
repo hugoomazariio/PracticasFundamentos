@@ -1,19 +1,19 @@
 // main.js
 // Autores: Hugo Mazarío Ros y Diego Sánchez Álvarez
 
-// Punto de entrada del programa: crea el mundo, define las figuras
-// predefinidas, controla la simulación (temporizador) y gestiona
+// Crea el mundo, define las figuras predefinidas, 
+// controla la simulación (temporizador) y gestiona 
 // los botones y el ratón.
 
 
-///////////////////// CONSTANTES /////////////////////
+// CONSTANTES 
 // Para cambiar el tamaño o la velocidad del juego solo hay que modificar estos valores.
 
 const TAMANO_MUNDO = 40; // Casillas por lado (el mundo es de 40 x 40).
 const TAM_CELDA = 15; // Píxeles que mide cada casilla.
 const PASOS_POR_SEGUNDO = 10; // Velocidad de la simulación.
 
-////////////////// ELEMENTOS DEL HMTL //////////////////
+// ELEMENTOS DEL HTML 
 
 const canvas = document.getElementById("canvasMundo");
 
@@ -23,10 +23,10 @@ const btnDetener = document.getElementById("btnDetener");
 const btnSiguienteGen = document.getElementById("btnSiguienteGen");
 const btnCuadricula = document.getElementById("btnCuadricula");
 
-// Lista con todos los botones del panel de figuras.
+// Botones del panel de figuras.
 const botonesFigura = document.querySelectorAll(".btn-figura");
 
-//////////////////////////////// Estado del programa ////////////////////////////////
+// Estado del programa 
 
 // El mundo (matriz de células + dibujo + lógica del juego).
 const mundo = new Mundo(TAMANO_MUNDO, canvas, TAM_CELDA);
@@ -34,14 +34,13 @@ const mundo = new Mundo(TAMANO_MUNDO, canvas, TAM_CELDA);
 // Temporizador de la simulación. null significa "simulación detenida".
 let timer = null;
 
-// HErramienta elegida en el panel: "celula" o la clave de una figura de FIGURAS.
+// Herramienta elegida en el panel: "celula" o la clave de una figura de FIGURAS.
 let figuraSeleccionada = "celula";
 
-//////////////////////////////// FIGURAS PREESTABLECIDAS ////////////////////////////////
+// FIGURAS PREESTABLECIDAS 
 
-// Cada figura es una lista de posiciones [fila, columna] relativas a la 
+// Cada figura es una lista de posiciones relativas a la 
 // casilla pulsada (que actúa como esquina superior izquierda de la figura).
-// Las claves coinciden con el atributo data-figura de los botones del HTML.
 
 const FIGURAS = {
     // Vidas estáticas: no cambian con el paso del tiempo.
@@ -90,7 +89,7 @@ const FIGURAS = {
 function colocarFigura(figura, fila, columna) {
     for (const [desplazamientoFila, desplazamientoColumna] of figura) {
 
-        // El módulo hace que las posiciones que se salen del mundo den la cuelta
+        // El módulo hace que las posiciones que se salen del mundo den la vuelta
         const f = (fila + desplazamientoFila + TAMANO_MUNDO) % TAMANO_MUNDO;
         const c = (columna + desplazamientoColumna + TAMANO_MUNDO) % TAMANO_MUNDO;
         mundo.matriz[f][c].viva = true;
@@ -99,7 +98,7 @@ function colocarFigura(figura, fila, columna) {
 }
 
 
-//////////////////////////////// SIMULACIÓN ////////////////////////////////
+// SIMULACIÓN 
 
 // Párrafo donde se muestra el estado de la simulación y el número de paso
 const infoPasos = document.getElementById("infoPasos");
@@ -108,8 +107,8 @@ const infoPasos = document.getElementById("infoPasos");
  * Actualiza el texto con el estado de la simulación (en marcha o detenida)
  * y el número de paso. Si hay un temporizador activo, está en marcha.
  */
-function actualizarInfoPasos(){
-    
+function actualizarInfoPasos() {
+
     // Información de los pasos
     const estado = (timer !== null) ? "en marcha" : "detenida";
     infoPasos.textContent = "Simulación " + estado + ": paso " + mundo.turnos;
@@ -125,15 +124,15 @@ function paso() {
     mundo.siguienteTurno();
     mundo.dibujar();
     actualizarInfoPasos();
-
+    actualizarInfoCelula();
 }
 
 /**
  * Pone en marcha la simulación. ejecuta paso() periódicamente.
  */
 function iniciar() {
-    // Si ya está en marcha no creamos otro temporizador; si no, se
-    // acumularían y la simulación iría cada vez más rápido.
+    // Si ya está en marcha no creamos otro temporizador.
+    // Si no, se acumularían y la simulación iría cada vez más rápido.
     if (timer !== null) {
         return;
     }
@@ -147,8 +146,9 @@ function iniciar() {
  * Detiene la simulación. El mundo se queda tal como está, y se puede reanudar con "Jugar".
  */
 function detener() {
-    clearInterval(timer); // Marcamos que ya no hay temporizafor activo.
-    timer = null;
+    clearInterval(timer); 
+    timer = null; // Marcamos que ya no hay temporizador activo.
+    actualizarInfoPasos();
 }
 
 /**
@@ -178,7 +178,9 @@ function alternarCuadricula() {
     btnCuadricula.textContent = mundo.mostrarCuadricula ? "Ocultar cuadrícula" : "Mostrar cuadrícula";
 }
 
-// Selección de figura
+// SELECCIÓN DE FIGURA 
+
+// Al pulsar un botón del panel, se marca como activo y se guarda su clave como herramienta elegida.
 botonesFigura.forEach((boton) => {
     boton.addEventListener("click", () => {
         botonesFigura.forEach((b) => b.classList.remove("activo"));
@@ -187,66 +189,94 @@ botonesFigura.forEach((boton) => {
     });
 });
 
-// Interacción con el ratón (clic izquierdo solo cuando está detenido)
-canvas.addEventListener("mousedown", function (evento) {
-    if (evento.button === 0) {
-        const rect = canvas.getBoundingClientRect();
-        const x = evento.clientX - rect.left;
-        const y = evento.clientY - rect.top;
+// INTERACCIÓN CON EL RATÓN
 
-        const columna = Math.floor(x / TAM_CELDA);
-        const fila = Math.floor(y / TAM_CELDA);
+/**
+ * Convierte la posición de un evento del ratón en la casilla del mundo sobre la que está.
+ * @param {MouseEvent} evento 
+ * @returns {{fila: number, columna: number} | null } La casilla o null si el ratón está fuera.
+ */
+function obtenerCasilla(evento) {
 
-        if (fila >= 0 && fila < TAMANO_MUNDO && columna >= 0 && columna < TAMANO_MUNDO) {
-            if (figuraSeleccionada === "celula") {
-                mundo.matriz[fila][columna].alternar();
-            } else if (FIGURAS[figuraSeleccionada]) {
-                colocarFigura(FIGURAS[figuraSeleccionada], fila, columna);
-            }
-            mundo.dibujar();
-        }
-    }
-});
-
-// Información de la célula
-
-const infoCelula = document.getElementById("infoCelula");
-
-
-canvas.addEventListener("mousemove", function (evento) {
-    // Posición del ratón
     const rect = canvas.getBoundingClientRect();
-    const x = evento.clientX - rect.left;
-    const y = evento.clientY - rect.top;
+    const x = evento.clientX - rect.left - canvas.clientLeft;
+    const y = evento.clientY - rect.top - canvas.clientTop; // Al restar la posición del canvas queda relativo a su esquina.
 
+    // De píxeles a casilla
     const columna = Math.floor(x / TAM_CELDA);
     const fila = Math.floor(y / TAM_CELDA);
 
-    // Solo si la casilla existe
-
     if (fila >= 0 && fila < TAMANO_MUNDO && columna >= 0 && columna < TAMANO_MUNDO) {
-        const celula = mundo.matriz[fila][columna];
-        const estado = celula.viva ? "viva" : "muerta";
-        infoCelula.textContent = "Célula (" + fila + ", " + columna + "): " +
-            estado + " desde hace " + celula.tiempo + " pasos";
+        return { fila: fila, columna: columna };
     }
+    return null;
+
+}
+
+// Al hacer clic izquierdo sobre el mundo pone o quita una célula o coloca una figura.
+// Funciona en cualquier momento, también con la simulación en marcha.
+
+canvas.addEventListener("mousedown", function (evento) {
+        const casilla = obtenerCasilla(evento);
+
+        if (evento.button === 0 && casilla !== null) {
+            if (figuraSeleccionada === "celula") {
+                // Alterna entre viva y muerta.
+                mundo.matriz[casilla.fila][casilla.columna].alternar();
+            } else if (FIGURAS[figuraSeleccionada]) {
+                // La coloca con la casilla como esquina.
+                colocarFigura(FIGURAS[figuraSeleccionada], casilla.fila, casilla.columna);
+            }
+            mundo.dibujar();
+            actualizarInfoCelula();
+        }
+});
+
+// INFORMACIÓN DE LA CELULA
+
+// Mostramos la información de la célula bajo el ratón
+const infoCelula = document.getElementById("infoCelula");
+
+let casillaRaton = null; // Nos sirve para poder refrescar el texto en cada paso de la simulación.
+
+/**
+ * Escribe cuánto tiempo lleva la célula bajo el ratón en su estado actual.
+ */
+function actualizarInfoCelula() {
+    if (casillaRaton === null) {
+        infoCelula.textContent = "Pasa el ratón sobre una célula";
+        return;
+    }
+    const celula = mundo.matriz[casillaRaton.fila][casillaRaton.columna];
+    const estado = celula.viva ? "viva" : "muerta";
+    infoCelula.textContent = "Célula (" + casillaRaton.fila + ", " + casillaRaton.columna + "): " +
+        estado + " desde hace " + celula.tiempo + " pasos";
+
+}
+
+// Al mover el ratón por el canvas, guardamos la casilla y actualizamos el texto.
+canvas.addEventListener("mousemove", function (evento) {
+    casillaRaton = obtenerCasilla(evento);
+    actualizarInfoCelula();
 });
 
 canvas.addEventListener("mouseleave", function (evento) {
-    infoCelula.textContent = "Pasa el ratón sobre una célula";
+    casillaRaton = null;
+    actualizarInfoCelula();
 });
 
 
+// EVENTO DE LOS BOTONES
 
-
-// Evento botones
 btnReset.addEventListener("click", reiniciar);
 btnIniciar.addEventListener("click", iniciar);
 btnDetener.addEventListener("click", detener);
 btnSiguienteGen.addEventListener("click", paso);
 btnCuadricula.addEventListener("click", alternarCuadricula);
 
-// Arranque
+// ARRANQUE
+
+// El estado inicial es un planeador y un intermitente para ver algo al abrir la página
 colocarFigura(FIGURAS.planeador, 2, 2);
 colocarFigura(FIGURAS.intermitente, 20, 20);
 mundo.dibujar();
