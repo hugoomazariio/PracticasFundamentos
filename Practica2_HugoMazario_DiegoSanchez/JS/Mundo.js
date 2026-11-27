@@ -54,6 +54,45 @@ class Mundo {
     }
 
     /**
+     * Cambia el número de casillas por lado. El canvas mantiene su 
+     * tamaño en píxeles, así que las casillas se hacen más pequeñas o más grandes.
+     * Las células existentes se conservan, centradas: si el mundo se hace más 
+     * pequeño se pierden las que quedan fuera; si crece, se añaden células muertas.
+     * @param {number} nuevasCasillas - Nuevo número de casillas por lado
+     */
+    cambiarTamanio(nuevasCasillas) {
+        const casillasAnteriores = this.casillasPorLado;
+        const matrizAnterior = this.matriz;
+
+        // Cuántas casillas se desplaza el mundo antiguo respecto al nuevo para que quede centrado.
+        const desplazamiento = Math.floor((casillasAnteriores - nuevasCasillas) / 2);
+
+        // Construimos la matriz nueva.
+        this.matriz = [];
+        for (let fila = 0; fila < nuevasCasillas; fila++) {
+            this.matriz[fila] = [];
+            for (let columna = 0; columna < nuevasCasillas; columna++) {
+
+                // Posición que tenía esta casilla en el mundo antiguo.
+                const filaAnterior = fila + desplazamiento;
+                const columnaAnterior = columna + desplazamiento;
+
+                if (filaAnterior >= 0 && filaAnterior < casillasAnteriores && columnaAnterior >= 0 && columnaAnterior < casillasAnteriores) {
+                    // Reutilizamos la célula, esta conserva su estado y tiempo.
+                    this.matriz[fila][columna] = matrizAnterior[filaAnterior][columnaAnterior];
+                } else {
+                    // Casilla nueva (Célula muerta).
+                    this.matriz[fila][columna] = new Celula();
+
+                }
+            }
+        }
+        this.casillasPorLado = nuevasCasillas;
+        // El canvas no cambia de tamaño, solo cambia lo que mide cada casilla.
+        this.tamanioCelda = this.canvas.width / nuevasCasillas;
+        this.dibujar();
+    }
+    /**
      * Mata todas las células, reinicia sus contadores de tiempo y pone
      * a 0 el número de turnos.
      */
