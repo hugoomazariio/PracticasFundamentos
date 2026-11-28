@@ -36,6 +36,10 @@ const btnZoomMenos = document.getElementById("btnZoomMenos");
 // Botones del panel de figuras.
 const botonesFigura = document.querySelectorAll(".btn-figura");
 
+// Canvas pequeño donde se dibuja la vista previa de la figura y su nombre
+const canvasPrevia = document.getElementById("canvasVistaPrevia");
+const contextoPrevia = canvasPrevia.getContext("2d");
+const nombreFigura = document.getElementById("nombreFigura");
 // Estado del programa 
 
 // El mundo (matriz de células + dibujo + lógica del juego).
@@ -147,7 +151,7 @@ function paso() {
 /**
  * Activa el botón "Generación anterior" solo si hay un turno al que volver.
  */
-function actualizarBotonAnterior(){
+function actualizarBotonAnterior() {
     btnAnteriorGen.disabled = !mundo.hayHistorial();
 }
 
@@ -155,7 +159,7 @@ function actualizarBotonAnterior(){
  * Retrocede la simulación un paso. Si estaba en marcha, la detiene
  * para que se vea el resultado.
  */
-function anterior(){
+function anterior() {
     detener();
     mundo.anteriorTurno();
     mundo.dibujar();
@@ -258,12 +262,58 @@ function actualizarBotonesZoom() {
 
 // SELECCIÓN DE FIGURA 
 
+function dibujarVistaPrevia() {
+
+    // La célula suelta no está en FIGURAS: es una única casilla en (0, 0)
+    const figura = figuraSeleccionada === "celula" ? [[0, 0]] : FIGURAS[figuraSeleccionada];
+
+    // Tamaño de la figura en casillas: la fila y la columna más grandes + 1
+    let alto = 0;
+    let ancho = 0;
+    for (const [fila, columna] of figura) {
+        if (fila + 1 > alto) {
+            alto = fila + 1;
+        }
+        if (columna + 1 > ancho) {
+            ancho = columna + 1;
+        }
+    }
+
+    // La figura cabe en el recuadro dejando un margen de 20 px, y como máximo 30 px
+    // (para que una célula solo no salga enorme)
+
+    const lado = Math.max(alto, ancho);
+    const tam = Math.min(30, Math.floor(canvasPrevia.width - 20 / lado));
+
+    // Posición de la esquina superior izquierda para que la figura quede centrada
+    const inicioX = (canvasPrevia.width - ancho * tam) / 2;
+    const inicioY = (canvasPrevia.height - alto * tam) / 2;
+
+    // Fondo del recuerdro
+    contextoPrevia.fillStyle = "#222222";
+    contextoPrevia.fillRect(0, 0, canvasPrevia.width, canvasPrevia.height);
+
+    // Cada posición de la figura es una célula viva (verde)
+    for (const [fila, columna] of figura) {
+        contextoPrevia.fillStyle = "#4cd964";
+        contextoPrevia.fillRect(inicioX + columna * tam, inicioY + fila * tam, tam, tam);
+
+
+        // Borde del color del fondo para que se distingan las casillas
+        contextoPrevia.strokeStyle = "#222222";
+        contextoPrevia.strokeRect(inicioX + columna * tam, inicioY + fila * tam, tam, tam);
+
+    }
+}
+
 // Al pulsar un botón del panel, se marca como activo y se guarda su clave como herramienta elegida.
 botonesFigura.forEach((boton) => {
     boton.addEventListener("click", () => {
         botonesFigura.forEach((b) => b.classList.remove("activo"));
         boton.classList.add("activo");
         figuraSeleccionada = boton.dataset.figura;
+        nombreFigura.textContent = boton.textContent;
+        dibujarVistaPrevia();
     });
 });
 
@@ -364,3 +414,4 @@ mundo.colocarFigura(FIGURAS.intermitente, 20, 20);
 mundo.dibujar();
 actualizarBotonesZoom();
 actualizarBotonAnterior();
+dibujarVistaPrevia();

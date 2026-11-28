@@ -38,13 +38,18 @@ canvas {
     text-align: left;
 }
 
-/* Titulo principal del panel */
-.panel-figuras h3 {
-    margin: 0 0 10px 0;
-    font-size: 16px;
+/* Titulo principal del panel y Recuadro con la vista previa de la figura seleccionada*/
+.panel-figuras h3,
+.panel-vista-previa {
+    background: #1c1c1c;
+    border: 2px solid #444444;
+    border-radius: 6px;
+    padding: 12px 15px;
     text-align: center;
-    border-bottom: 1px solid #444444;
-    padding-bottom: 6px;
+}
+
+#canvasVistaPrevia {
+    margin: 0 auto;   /* Centrado dentro del recuadro */
 }
 
 /* Titulos de las categorias dentro del panel */
@@ -96,3 +101,4 @@ button:disabled {
     opacity: 0.4;
     cursor: not-allowed;
 }
+
