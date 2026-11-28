@@ -283,7 +283,7 @@ function dibujarVistaPrevia() {
     // (para que una célula solo no salga enorme)
 
     const lado = Math.max(alto, ancho);
-    const tam = Math.min(30, Math.floor(canvasPrevia.width - 20 / lado));
+    const tam = Math.min(30, Math.floor((canvasPrevia.width - 20) / lado));
 
     // Posición de la esquina superior izquierda para que la figura quede centrada
     const inicioX = (canvasPrevia.width - ancho * tam) / 2;
