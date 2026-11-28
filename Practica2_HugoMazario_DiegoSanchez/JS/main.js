@@ -151,6 +151,10 @@ function actualizarBotonAnterior(){
     btnAnteriorGen.disabled = !mundo.hayHistorial();
 }
 
+/**
+ * Retrocede la simulación un paso. Si estaba en marcha, la detiene
+ * para que se vea el resultado.
+ */
 function anterior(){
     detener();
     mundo.anteriorTurno();

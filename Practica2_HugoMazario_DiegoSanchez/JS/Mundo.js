@@ -260,7 +260,7 @@ class Mundo {
                 const celula = this.matriz[fila][columna];
                 // Guardamos solo los valores, no la célula en sí.
                 // Si no, la copia cambiaría cuando cambiase la célula.
-                copia[fila][mundo] = {viva: celula.viva, tiempo: celula.tiempo};
+                copia[fila][columna] = {viva: celula.viva, tiempo: celula.tiempo};
             }
         }
         this.historial.push(copia);
@@ -270,6 +270,10 @@ class Mundo {
         }
     }
 
+    /**
+     * Vuelve al turno anterior restaurando la última copia guardada.
+     * No hace nada si no hay historial.
+     */
     anteriorTurno(){
         if(this.historial.length === 0){
             return;
