@@ -41,6 +41,13 @@ class Mundo {
 
         // Número de turnos (pasos) que se han simulado desde el inicio
         this.turnos = 0;
+
+        // Historial de estados anteriores para poder retroceder.
+        // Cada elemento es una copia de todo el mundo en un turno.
+        this.historial = [];
+        // Máximo de copias que se guardan (las más antiguas se descartan)
+        this.maxHistorial = 50;
+
         this.mostrarCuadricula = true; // Controla si se dibuja la cuadrícula
     }
 
@@ -61,6 +68,7 @@ class Mundo {
      * @param {number} nuevasCasillas - Nuevo número de casillas por lado
      */
     cambiarTamanio(nuevasCasillas) {
+        this.vaciarHistorial(); // Las copias guardadas serían de otro tamaño
         const casillasAnteriores = this.casillasPorLado;
         const matrizAnterior = this.matriz;
 
@@ -105,6 +113,7 @@ class Mundo {
             }
         }
         this.turnos = 0;
+        this.vaciarHistorial();
     }
 
     /**
@@ -203,6 +212,7 @@ class Mundo {
      * vecinas que ya han cambiado en este mismo turno.
      */
     siguienteTurno() {
+        this.guardarEstado(); // Copia del estado actual antes de cambiarlo
         // Calculamos el estado que tendrá cada célula en el turno siguiente.
         const siguiente = [];
 
@@ -237,4 +247,57 @@ class Mundo {
         // Un turno más simulado.
         this.turnos++;
     }
+
+    /**
+     * Guarda una copia del estado actual del mundo al final del historial.
+     * Si hay demasiadas copias, se descarta la más antigua.
+     */
+    guardarEstado() {
+        const copia = [];
+        for (let fila = 0; fila < this.casillasPorLado; fila++) {
+            copia[fila] = [];
+            for (let columna = 0; columna < this.casillasPorLado; columna++) {
+                const celula = this.matriz[fila][columna];
+                // Guardamos solo los valores, no la célula en sí.
+                // Si no, la copia cambiaría cuando cambiase la célula.
+                copia[fila][mundo] = {viva: celula.viva, tiempo: celula.tiempo};
+            }
+        }
+        this.historial.push(copia);
+
+        if(this.historial.length > this.maxHistorial){
+            this.historial.shift(); // Quitamos la copia más antigua.
+        }
+    }
+
+    anteriorTurno(){
+        if(this.historial.length === 0){
+            return;
+        }
+
+        const copia = this.historial.pop(); // con pop () devolvemos la última copia y la quitamos del historial.
+
+        for(let fila = 0; fila < this.casillasPorLado; fila++){
+            for (let columna = 0; columna < this.casillasPorLado; columna++){
+                this.matriz[fila][columna].viva = copia[fila][columna].viva;
+                this.matriz[fila][columna].tiempo = copia[fila][columna].tiempo;
+            }
+        }
+        this.turnos--;
+    }
+
+    /**
+     * Borra todas las copias guardadas.
+     */
+    vaciarHistorial(){
+        this.historial = [];
+    }
+
+    /**
+     * @returns {boolean} true si se puede retroceder al menos un turno.
+     */
+    hayHistorial(){
+        return this.historial.length > 0;
+    }
+
 }

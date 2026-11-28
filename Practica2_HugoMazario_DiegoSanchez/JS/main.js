@@ -27,6 +27,7 @@ const canvas = document.getElementById("canvasMundo");
 const btnReset = document.getElementById("btnReset");
 const btnIniciar = document.getElementById("btnIniciar");
 const btnDetener = document.getElementById("btnDetener");
+const btnAnteriorGen = document.getElementById("btnAnteriorGen");
 const btnSiguienteGen = document.getElementById("btnSiguienteGen");
 const btnCuadricula = document.getElementById("btnCuadricula");
 const btnZoomMas = document.getElementById("btnZoomMas");
@@ -140,6 +141,23 @@ function paso() {
     mundo.dibujar();
     actualizarInfoPasos();
     actualizarInfoCelula();
+    actualizarBotonAnterior();
+}
+
+/**
+ * Activa el botón "Generación anterior" solo si hay un turno al que volver.
+ */
+function actualizarBotonAnterior(){
+    btnAnteriorGen.disabled = !mundo.hayHistorial();
+}
+
+function anterior(){
+    detener();
+    mundo.anteriorTurno();
+    mundo.dibujar();
+    actualizarInfoPasos();
+    actualizarInfoCelula();
+    actualizarBotonAnterior();
 }
 
 /**
@@ -202,6 +220,7 @@ function establecerZoom(nuevoNivel) {
     casillaRaton = null;
     actualizarInfoCelula();
     actualizarBotonesZoom();
+    actualizarBotonAnterior();
 }
 
 /**
@@ -326,6 +345,7 @@ canvas.addEventListener("mouseleave", function (evento) {
 btnReset.addEventListener("click", reiniciar);
 btnIniciar.addEventListener("click", iniciar);
 btnDetener.addEventListener("click", detener);
+btnAnteriorGen.addEventListener("click", anterior);
 btnSiguienteGen.addEventListener("click", paso);
 btnCuadricula.addEventListener("click", alternarCuadricula);
 btnZoomMas.addEventListener("click", acercar);
@@ -339,3 +359,4 @@ mundo.colocarFigura(FIGURAS.planeador, 2, 2);
 mundo.colocarFigura(FIGURAS.intermitente, 20, 20);
 mundo.dibujar();
 actualizarBotonesZoom();
+actualizarBotonAnterior();
